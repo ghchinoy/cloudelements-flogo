@@ -34,6 +34,7 @@ const (
 	ceOrganization = "organizationKey"
 	ceUser         = "userKey"
 	ceElement      = "elementKey"
+	ceBase         = "https://api.cloud-elements.com/elements/api-v2"
 
 	ovResult = "result"
 )
@@ -61,7 +62,7 @@ func (a *RESTActivity) Metadata() *activity.Metadata {
 func (a *RESTActivity) Eval(context activity.Context) (done bool, err error) {
 
 	method := strings.ToUpper(context.GetInput(ivMethod).(string))
-	uri := context.GetInput(ivURI).(string)
+	uri := fmt.Sprintf("%s%s", ceBase, context.GetInput(ivURI).(string))
 
 	containsParam := strings.Index(uri, "/:") > -1
 

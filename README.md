@@ -5,7 +5,7 @@ This activity provides your flogo application the ability to invoke a Cloud Elem
 ## Installation
 
 ```bash
-flogo add activity gitlab.com/ghchinoy/cloudelements-flogo
+flogo add activity github.com/ghchinoy/cloudelements-flogo
 ```
 
 ## Schema
