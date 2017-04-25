@@ -1,0 +1,55 @@
+{
+  "name": "cloudelements-instance",
+  "type": "flogo:activity",
+  "ref": "gitlab.com/ghchinoy/cloudemenets-flogo/",
+  "version": "0.0.1",
+  "title": "Invoke Cloud Elements Element Instance",
+  "description": "Simple REST Activity",
+  "homepage": "https://gitlab.com/ghchinoy/cloudelements-flogo",
+  "inputs":[
+    {
+      "name": "organizationKey",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "userKey",
+      "type": "string",
+      "required": "true"
+    },
+    {
+      "name": "elementKey",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "method",
+      "type": "string",
+      "required": true,
+      "allowed" : ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    },
+    {
+      "name": "uri",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "pathParams",
+      "type": "params"
+    },
+    {
+      "name": "queryParams",
+      "type": "params"
+    },
+    {
+      "name": "content",
+      "type": "any"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "result",
+      "type": "any"
+    }
+  ]
+}
