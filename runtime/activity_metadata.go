@@ -1,11 +1,26 @@
-package rest
+package cloudelements
 
 var jsonMetadata = `{
-  "name": "tibco-rest",
+  "name": "cloudelements-instance",
   "version": "0.0.1",
-  "title": "Invoke REST Service",
-  "description": "Simple REST Activity",
+  "title": "Invoke Cloud Elements Instance",
+  "description": "Simple Cloud Elements Activity",
   "inputs":[
+    {
+      "name": "organizationKey",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "userKey",
+      "type": "string",
+      "required": "true"
+    },
+    {
+      "name": "elementKey",
+      "type": "string",
+      "required": false
+    },
     {
       "name": "method",
       "type": "string",

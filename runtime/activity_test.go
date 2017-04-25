@@ -1,4 +1,4 @@
-package rest
+package cloudelements
 
 import (
 	"encoding/json"
@@ -17,7 +17,7 @@ const reqPostStr string = `{
 var petID string
 
 func TestRegistered(t *testing.T) {
-	act := activity.Get("tibco-rest")
+	act := activity.Get("cloudelements-instance")
 
 	if act == nil {
 		t.Error("Activity Not Registered")
@@ -28,7 +28,7 @@ func TestRegistered(t *testing.T) {
 
 func TestSimplePost(t *testing.T) {
 
-	act := activity.Get("tibco-rest")
+	act := activity.Get("cloudelements-instance")
 	tc := test.NewTestActivityContext(act.Metadata())
 
 	//setup attrs
@@ -50,7 +50,7 @@ func TestSimplePost(t *testing.T) {
 
 func TestSimpleGet(t *testing.T) {
 
-	act := activity.Get("tibco-rest")
+	act := activity.Get("cloudelements-instance")
 	tc := test.NewTestActivityContext(act.Metadata())
 
 	//setup attrs
@@ -108,7 +108,7 @@ func TestSimpleGetQP(t *testing.T) {
 
 func TestBuildURI(t *testing.T) {
 
-	uri:= "http://localhost:7070/flow/:id"
+	uri := "http://localhost:7070/flow/:id"
 
 	params := map[string]string{
 		"id": "1234",
@@ -121,11 +121,11 @@ func TestBuildURI(t *testing.T) {
 
 func TestBuildURI2(t *testing.T) {
 
-	uri:= "https://127.0.0.1:7070/:cmd/:id/test"
+	uri := "https://127.0.0.1:7070/:cmd/:id/test"
 
 	params := map[string]string{
 		"cmd": "flow",
-		"id": "1234",
+		"id":  "1234",
 	}
 
 	newURI := BuildURI(uri, params)
@@ -135,7 +135,7 @@ func TestBuildURI2(t *testing.T) {
 
 func TestBuildURI3(t *testing.T) {
 
-	uri:= "http://localhost/flow/:id"
+	uri := "http://localhost/flow/:id"
 
 	params := map[string]string{
 		"id": "1234",
@@ -148,11 +148,11 @@ func TestBuildURI3(t *testing.T) {
 
 func TestBuildURI4(t *testing.T) {
 
-	uri:= "https://127.0.0.1/:cmd/:id/test"
+	uri := "https://127.0.0.1/:cmd/:id/test"
 
 	params := map[string]string{
 		"cmd": "flow",
-		"id": "1234",
+		"id":  "1234",
 	}
 
 	newURI := BuildURI(uri, params)

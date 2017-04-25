@@ -15,7 +15,7 @@ import (
 )
 
 // log is the default package logger
-var log = logger.GetLogger("activity-tibco-rest")
+var log = logger.GetLogger("activity-cloudelements-instance")
 
 const (
 	methodGET    = "GET"
@@ -41,25 +41,25 @@ const (
 
 var validMethods = []string{methodGET, methodPOST, methodPUT, methodPATCH, methodDELETE}
 
-// RESTActivity is an Activity that is used to invoke a REST Operation
+// CloudElementsInstanceActivity is an Activity that is used to invoke a REST Operation
 // inputs : {method,uri,params}
 // outputs: {result}
-type RESTActivity struct {
+type CloudElementsInstanceActivity struct {
 	metadata *activity.Metadata
 }
 
-// NewActivity creates a new RESTActivity
+// NewActivity creates a new CloudElementsInstanceActivity
 func NewActivity(metadata *activity.Metadata) activity.Activity {
-	return &RESTActivity{metadata: metadata}
+	return &CloudElementsInstanceActivity{metadata: metadata}
 }
 
 // Metadata returns the activity's metadata
-func (a *RESTActivity) Metadata() *activity.Metadata {
+func (a *CloudElementsInstanceActivity) Metadata() *activity.Metadata {
 	return a.metadata
 }
 
-// Eval implements api.Activity.Eval - Invokes a REST Operation
-func (a *RESTActivity) Eval(context activity.Context) (done bool, err error) {
+// Eval implements api.Activity.Eval - Invokes a CloudElements REST Operation
+func (a *CloudElementsInstanceActivity) Eval(context activity.Context) (done bool, err error) {
 
 	method := strings.ToUpper(context.GetInput(ivMethod).(string))
 	uri := fmt.Sprintf("%s%s", ceBase, context.GetInput(ivURI).(string))
@@ -95,7 +95,7 @@ func (a *RESTActivity) Eval(context activity.Context) (done bool, err error) {
 		uri = uri + "?" + qp.Encode()
 	}
 
-	log.Debugf("REST Call: [%s] %s\n", method, uri)
+	log.Debugf("CloudElements Call: [%s] %s\n", method, uri)
 
 	var reqBody io.Reader
 
@@ -121,7 +121,7 @@ func (a *RESTActivity) Eval(context activity.Context) (done bool, err error) {
 
 	// Create Cloud Elements authorization header
 	authheader := fmt.Sprintf("User %s, Organization %s", ceUser, ceOrganization)
-	if ceElement {
+	if ceElement != "" {
 		authheader = fmt.Sprintf("%s, Element %s", authheader, ceElement)
 	}
 

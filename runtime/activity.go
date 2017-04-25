@@ -1,8 +1,9 @@
-package rest
+package cloudelements
 
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -14,7 +15,7 @@ import (
 )
 
 // log is the default package logger
-var log = logger.GetLogger("activity-tibco-rest")
+var log = logger.GetLogger("activity-cloudelements-instance")
 
 const (
 	methodGET    = "GET"
@@ -30,34 +31,39 @@ const (
 	ivContent     = "content"
 	ivParams      = "params"
 
+	ceOrganization = "organizationKey"
+	ceUser         = "userKey"
+	ceElement      = "elementKey"
+	ceBase         = "https://api.cloud-elements.com/elements/api-v2"
+
 	ovResult = "result"
 )
 
 var validMethods = []string{methodGET, methodPOST, methodPUT, methodPATCH, methodDELETE}
 
-// RESTActivity is an Activity that is used to invoke a REST Operation
+// CloudElementsInstanceActivity is an Activity that is used to invoke a REST Operation
 // inputs : {method,uri,params}
 // outputs: {result}
-type RESTActivity struct {
+type CloudElementsInstanceActivity struct {
 	metadata *activity.Metadata
 }
 
 // init create & register activity
 func init() {
 	md := activity.NewMetadata(jsonMetadata)
-	activity.Register(&RESTActivity{metadata: md})
+	activity.Register(&CloudElementsInstanceActivity{metadata: md})
 }
 
 // Metadata returns the activity's metadata
-func (a *RESTActivity) Metadata() *activity.Metadata {
+func (a *CloudElementsInstanceActivity) Metadata() *activity.Metadata {
 	return a.metadata
 }
 
 // Eval implements api.Activity.Eval - Invokes a REST Operation
-func (a *RESTActivity) Eval(context activity.Context) (done bool, err error) {
+func (a *CloudElementsInstanceActivity) Eval(context activity.Context) (done bool, err error) {
 
 	method := strings.ToUpper(context.GetInput(ivMethod).(string))
-	uri := context.GetInput(ivURI).(string)
+	uri := fmt.Sprintf("%s%s", ceBase, context.GetInput(ivURI).(string))
 
 	containsParam := strings.Index(uri, "/:") > -1
 
@@ -90,7 +96,7 @@ func (a *RESTActivity) Eval(context activity.Context) (done bool, err error) {
 		uri = uri + "?" + qp.Encode()
 	}
 
-	log.Debugf("REST Call: [%s] %s\n", method, uri)
+	log.Debugf("CloudElements Call: [%s] %s\n", method, uri)
 
 	var reqBody io.Reader
 
@@ -157,7 +163,7 @@ func getContentType(replyData interface{}) string {
 		if !strings.HasPrefix(v, "{") && !strings.HasPrefix(v, "[") {
 			contentType = "text/plain; charset=UTF-8"
 		}
-	case int, int64, float64, bool, json.Number :
+	case int, int64, float64, bool, json.Number:
 		contentType = "text/plain; charset=UTF-8"
 	default:
 		contentType = "application/json; charset=UTF-8"
@@ -218,7 +224,7 @@ func BuildURI(uri string, values map[string]string) string {
 				i++
 			} else {
 
-				param := uri[i+1: j]
+				param := uri[i+1 : j]
 				value := values[param]
 				buffer.WriteString(value)
 				if j < len(uri) {

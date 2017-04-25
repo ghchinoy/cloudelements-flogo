@@ -5,22 +5,24 @@ import (
 	"fmt"
 	"testing"
 
+	"io/ioutil"
+
 	"github.com/TIBCOSoftware/flogo-lib/flow/activity"
 	"github.com/TIBCOSoftware/flogo-lib/flow/test"
-	"io/ioutil"
 )
 
 const reqPostStr string = `{
   "name": "my pet"
 }
 `
+
 var activityMetadata *activity.Metadata
 
 func getActivityMetadata() *activity.Metadata {
 
 	if activityMetadata == nil {
 		jsonMetadataBytes, err := ioutil.ReadFile("activity.json")
-		if err != nil{
+		if err != nil {
 			panic("No Json Metadata found for activity.json path")
 		}
 
@@ -83,7 +85,7 @@ func TestSimpleGet(t *testing.T) {
 
 func TestParamGet(t *testing.T) {
 
-	act := activity.Get("github.com/TIBCOSoftware/flogo-contrib/activity/rest")
+	act := activity.Get("github.com/ghchinoycloudelements-flogo")
 	tc := test.NewTestActivityContext(act.Metadata())
 
 	//setup attrs
@@ -125,7 +127,7 @@ func TestSimpleGetQP(t *testing.T) {
 
 func TestBuildURI(t *testing.T) {
 
-	uri:= "http://localhost:7070/flow/:id"
+	uri := "http://localhost:7070/flow/:id"
 
 	params := map[string]string{
 		"id": "1234",
@@ -138,11 +140,11 @@ func TestBuildURI(t *testing.T) {
 
 func TestBuildURI2(t *testing.T) {
 
-	uri:= "https://127.0.0.1:7070/:cmd/:id/test"
+	uri := "https://127.0.0.1:7070/:cmd/:id/test"
 
 	params := map[string]string{
 		"cmd": "flow",
-		"id": "1234",
+		"id":  "1234",
 	}
 
 	newURI := BuildURI(uri, params)
@@ -152,7 +154,7 @@ func TestBuildURI2(t *testing.T) {
 
 func TestBuildURI3(t *testing.T) {
 
-	uri:= "http://localhost/flow/:id"
+	uri := "http://localhost/flow/:id"
 
 	params := map[string]string{
 		"id": "1234",
@@ -165,11 +167,11 @@ func TestBuildURI3(t *testing.T) {
 
 func TestBuildURI4(t *testing.T) {
 
-	uri:= "https://127.0.0.1/:cmd/:id/test"
+	uri := "https://127.0.0.1/:cmd/:id/test"
 
 	params := map[string]string{
 		"cmd": "flow",
-		"id": "1234",
+		"id":  "1234",
 	}
 
 	newURI := BuildURI(uri, params)
